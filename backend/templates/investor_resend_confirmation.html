@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Confirmation Email Sent</title>
+  <style>
+    body   { font-family: sans-serif; text-align: center; padding: 2rem; }
+    .card { display: inline-block; padding: 2rem; border: 1px solid #ddd; border-radius: 8px; }
+    h1    { color: #27ae60; margin-bottom: 1rem; }
+    p     { margin: 0.5rem 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    {% if success %}
+      <h1>✅ Email Sent!</h1>
+      <p>We’ve just sent a new confirmation link to <strong>{{ email }}</strong>.</p>
+      <p>Please check your inbox (and spam folder) and click the link within 10 minutes.</p>
+    {% else %}
+      <h1>⚠️ Something Went Wrong</h1>
+      <p>{{ error }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>New Investor Registration</title>
+  </head>
+  <body>
+    <p>Hello Admin,</p>
+    <p>A new investor has just registered on AC Finance. Details:</p>
+    <ul>
+      <li><strong>Name:</strong> {{ investor.first_name }} {{ investor.surname }}</li>
+      <li><strong>Username:</strong> {{ investor.username }}</li>
+      <li><strong>Email:</strong> {{ investor.email }}</li>
+    </ul>
+    <p>You can review pending applicants here:</p>
+    <p>
+      <a href="{{ admin_link }}">{{ admin_link }}</a>
+    </p>
+    <p>— AC Finance System</p>
+  </body>
+</html>

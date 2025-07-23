@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Email Confirmation</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    .card { display: inline-block; padding: 2rem; border: 1px solid #ddd; border-radius: 8px; }
+    h1 { color: #2c3e50; }
+    p { margin: 0.5rem 0; }
+    form { margin-top: 1.5rem; }
+    input[type="email"] { padding: 0.5rem; width: 250px; }
+    button { padding: 0.5rem 1rem; margin-left: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    {% if error %}
+      <h1>⚠️ Oops!</h1>
+      <p>{{ error }}</p>
+
+      <!-- Resend form -->
+      <form id="resend-form" method="POST" action="/api/investor-resend-confirmation">
+        <input
+          type="email"
+          name="email"
+          placeholder="your.email@example.com"
+          required
+        />
+        <button type="submit">Resend Confirmation</button>
+      </form>
+    {% else %}
+      <h1>✅ Email Confirmed!</h1>
+      <p>Your email address has been successfully verified.</p>
+      <p>Please wait for admin approval before logging in.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
