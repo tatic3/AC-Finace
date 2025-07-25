@@ -1,0 +1,103 @@
+/* AdminLogin.css */
+
+/* Full-page container centering (background inherited from public layout) */
+.admin-login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  /* Card with fancy frame and brand background */
+  .admin-login-card {
+    width: 100%;
+    max-width: 28rem; /* ~448px */
+    background: #5fb5ca;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Decorative frame using pseudo-element */
+  .admin-login-card::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 1rem;
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(95, 181, 202, 0.6);
+  }
+  
+  /* Heading */
+  .admin-login-card h2 {
+    color: #fff;
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+    position: relative; /* to sit above pseudo-element */
+    z-index: 1;
+  }
+  
+  /* Form inputs */
+  .admin-login-card .form-group {
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .admin-login-card label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .admin-login-card input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  
+  .admin-login-card input::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
+  
+  .admin-login-card input:focus {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+  
+  /* Submit button */
+  .admin-login-card button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    color: #5fb5ca;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  .admin-login-card button:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+  }
+  
+  .admin-login-card button:active {
+    transform: translateY(0);
+  }
+  

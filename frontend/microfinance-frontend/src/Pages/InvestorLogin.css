@@ -1,0 +1,124 @@
+
+/* src/Pages/InvestorLogin.css */
+
+.investor-login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    /* background inherited from public layout */
+  }
+  
+  .investor-login-card {
+    width: 100%;
+    max-width: 28rem;
+    background: #5fb5ca;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .investor-login-card::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 1rem;
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(95, 181, 202, 0.6);
+  }
+  
+  .investor-login-card h2 {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+  }
+  
+  .form-group {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 0.5rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  
+  .input-wrapper .icon {
+    color: rgba(255,255,255,0.8);
+    margin-right: 0.5rem;
+  }
+  
+  .input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 0.5rem 0;
+  }
+  
+  .input-wrapper input::placeholder {
+    color: rgba(255,255,255,0.7);
+  }
+  
+  .input-wrapper input:focus {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+  
+  .forgot-link,
+  .register-link {
+    color: #fff;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    color: #5fb5ca;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .submit-btn:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+  
+  .loader-icon {
+    margin-right: 0.5rem;
+  }
+  

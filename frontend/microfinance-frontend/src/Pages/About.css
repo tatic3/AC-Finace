@@ -1,0 +1,100 @@
+/* src/Pages/About.css */
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  .about-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #5fb5ca;
+  }
+  .tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .tab-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    background: #e0f7fa;
+    color: #4b4e6d;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+  }
+  .tab-btn:hover {
+    background: #b2ebf2;
+  }
+  .tab-btn.active {
+    background: #5fb5ca;
+    color: #fff;
+    transform: scale(1.1);
+  }
+  .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+  }
+  .about-image img {
+    width: 100%;
+    max-width: 360px;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  .about-image img:hover {
+    transform: scale(1.05);
+  }
+  .about-details {
+    flex: 1;
+  }
+  .about-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    background: #5fb5ca;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: #fff;
+  }
+  .about-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .about-subtitle {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .about-card {
+    background: #0a739c;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.3s;
+  }
+  .about-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  .details-box p,
+  .details-box ul,
+  .details-box table {
+    margin-bottom: 1rem;
+  }
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .info-table th,
+  .info-table td {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+  }
+  .info-table thead th {
+    background: #5fb5ca;
+  }
+  

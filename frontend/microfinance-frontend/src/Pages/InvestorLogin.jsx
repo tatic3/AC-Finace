@@ -7,12 +7,12 @@ import { Loader2, Mail, Lock } from 'lucide-react';
 import PublicNavbar from '../Pages/PublicNavbar';
 import { useAuth } from '../hooks/AuthContext.jsx';
 import api from '../api/axios';
+import './InvestorLogin.css';
 
 export default function InvestorLogin() {
   const navigate = useNavigate();
   const { accessToken, setAccessToken, logout } = useAuth();
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (accessToken) {
       navigate('/investor/dashboard', { replace: true });
@@ -63,58 +63,55 @@ export default function InvestorLogin() {
   return (
     <>
       <PublicNavbar />
-      <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
-        <div className="w-full max-w-md bg-white p-8 rounded-lg shadow">
-          <h2 className="text-2xl font-semibold text-center mb-6">Investor Login</h2>
+      <div className="investor-login-page">
+        <div className="investor-login-card">
+          <h2 className="text-3xl font-bold mb-6 text-center text-white">Investor Login</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <div className="flex items-center border rounded px-3 py-2">
-                <Mail className="mr-2" />
+            <div className="form-group">
+              <label htmlFor="emailOrUsername">Email or Username</label>
+              <div className="input-wrapper">
+                <Mail className="icon" />
                 <input
                   type="text"
+                  id="emailOrUsername"
                   name="emailOrUsername"
-                  value={form.emailOrUsername}
-                  onChange={handleChange}
                   placeholder="Email or Username"
                   required
-                  className="w-full focus:outline-none"
                   disabled={loading}
+                  value={form.emailOrUsername}
+                  onChange={handleChange}
                 />
               </div>
             </div>
-            <div>
-              <div className="flex items-center border rounded px-3 py-2">
-                <Lock className="mr-2" />
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="input-wrapper">
+                <Lock className="icon" />
                 <input
                   type="password"
+                  id="password"
                   name="password"
-                  value={form.password}
-                  onChange={handleChange}
                   placeholder="••••••••"
                   required
-                  className="w-full focus:outline-none"
                   disabled={loading}
+                  value={form.password}
+                  onChange={handleChange}
                 />
               </div>
             </div>
-            {/* Forgot Password Link */}
-            <div className="text-right">
-              <Link to="/investor/forgot-password" className="text-sm text-indigo-600 hover:underline">
+            <div className="text-right form-group">
+              <Link to="/investor/forgot-password" className="forgot-link">
                 Forgot password?
               </Link>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex justify-center items-center py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded disabled:opacity-50"
-            >
-              {loading && <Loader2 className="animate-spin mr-2 h-5 w-5" />}
+            <button type="submit" disabled={loading} className="submit-btn">
+              {loading && <Loader2 className="loader-icon" />}
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
-          <p className="mt-4 text-center text-sm">
+          <p className="mt-4 text-center text-sm text-white">
             Need an account?{' '}
-            <Link to="/investor/register" className="text-indigo-600 hover:underline">
+            <Link to="/investor/register" className="register-link">
               Register
             </Link>
           </p>

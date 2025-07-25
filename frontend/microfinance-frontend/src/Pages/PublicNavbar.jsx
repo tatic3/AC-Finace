@@ -1,89 +1,66 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import './PublicNavbar.css';
 
 export default function PublicNavbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const navLinks = [
-    { name: 'Home',           path: '/' },
-    { name: 'About',          path: '/about' },
-    { name: 'Contact',        path: '/contact' },
-    { name: 'Admin Login',    path: '/admin/login' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'Admin Login', path: '/admin/login' },
     { name: 'Investor Login', path: '/investor/login' },
   ];
 
   return (
-    <nav className="bg-white border-b border-gray-200 fixed top-0 w-full z-50">
-      {/* same max-width & height as minimal test */}
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="text-xl font-bold text-blue-600">
-          AC Finance
-        </Link>
+    <>
+      {/* Navbar Bar */}
+      <nav className="navbar">
+        <div className="navbar-logo">AC Finance</div>
+        {!isMobile && (
+          <ul className="desktop-nav-links">
+            {navLinks.map(link => (
+              <li key={link.name}>
+                <NavLink to={link.path} className={({ isActive }) => (isActive ? 'active' : '')}>
+                  {link.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        )}
+        {isMobile && (
+          <button className="menu-btn" onClick={() => setIsOpen(o => !o)}>
+            <i className={isOpen ? 'fas fa-times' : 'fas fa-bars'} />
+          </button>
+        )}
+      </nav>
 
-        {/* Always-visible inline links */}
-        <div className="flex items-center space-x-6">
-          {navLinks.map(link => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              className={({ isActive }) =>
-                `text-sm font-medium transition ${
-                  isActive
-                    ? 'text-blue-600'
-                    : 'text-gray-700 hover:text-blue-600'
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
-        </div>
-
-        {/* Always-visible hamburger */}
-        <button
-          onClick={() => setIsOpen(o => !o)}
-          aria-label="Toggle menu"
-          className="text-gray-700 hover:text-blue-600 focus:outline-none"
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Dropdown below, same minimal padding */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="nav-dropdown"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white shadow-md border-t"
-          >
-            <div className="px-4 py-2 space-y-1">
-              {navLinks.map(link => (
+      {/* Mobile Fullscreen Overlay */}
+      {isMobile && (
+        <div className={`wrapper ${isOpen ? 'active' : ''}`}>  
+          <ul>
+            {navLinks.map(link => (
+              <li key={link.name}>
                 <NavLink
-                  key={link.name}
                   to={link.path}
+                  className={({ isActive }) => (isActive ? 'active' : '')}
                   onClick={() => setIsOpen(false)}
-                  className={({ isActive }) =>
-                    `block text-sm font-medium transition ${
-                      isActive
-                        ? 'text-blue-600'
-                        : 'text-gray-700 hover:text-blue-600'
-                    }`
-                  }
                 >
                   {link.name}
                 </NavLink>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 }

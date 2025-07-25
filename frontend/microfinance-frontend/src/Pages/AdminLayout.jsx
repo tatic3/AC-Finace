@@ -1,5 +1,4 @@
-// src/Layouts/AdminLayout.jsx
-import React from 'react';
+import React, { useState, useContext, createContext } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import {
   Home,
@@ -9,17 +8,22 @@ import {
   Repeat,
   ClipboardList,
   LogOut,
-  UserCircle
+  UserCircle,
+  Menu
 } from 'lucide-react';
 import { useAuth } from '../hooks/AuthContext.jsx';
 import useRequireAuth from '../hooks/useRequireAuth.js';
+import './AdminLayout.css';
+
+// Optional theme context
+export const ThemeContext = createContext({ overlayBg: '#000' });
 
 export default function AdminLayout() {
   const { accessToken, logout } = useAuth();
   const navigate = useNavigate();
   useRequireAuth('/admin/login');
 
-  // decode sub and any custom claim 'role' or 'email'
+  // Decode token for name/role
   let sub = '', name = 'Admin';
   try {
     const [, payload] = accessToken.split('.');
@@ -29,70 +33,95 @@ export default function AdminLayout() {
   } catch {}
 
   const isSuperAdmin = sub === '1';
+  const [menuOpen, setMenuOpen] = useState(false);
+  const theme = useContext(ThemeContext);
 
   const navItems = [
-    { name: 'Dashboard', path: '/admin/dashboard', icon: <Home size={18}/> },
-    ...(isSuperAdmin ? [
-      { name: 'Users', path: '/admin/users',     icon: <Users size={18}/> },
-      { name: 'Audit Logs', path: '/admin/audit-logs', icon: <ClipboardList size={18}/> },
-    ] : []),
-    { name: 'Investors',   path: '/admin/investors', icon: <Users size={18}/> },
-    { name: 'Investments', path: '/admin/investments', icon: <DollarSign size={18}/> },
-    { name: 'Loans',       path: '/admin/loans',       icon: <FileText size={18}/> },
-    { name: 'Repayments',  path: '/admin/repayments',  icon: <Repeat size={18}/> },
-    { name: 'Withdrawals', path: '/admin/withdrawals', icon: <FileText size={18}/> },
+    { to: '/admin/dashboard',    icon: Home,         label: 'Dashboard' },
+    ...(isSuperAdmin
+      ? [
+          { to: '/admin/users',      icon: Users,        label: 'Users' },
+          { to: '/admin/audit-logs', icon: ClipboardList, label: 'Audit Logs' },
+        ]
+      : []),
+    { to: '/admin/investors',    icon: Users,        label: 'Investors' },
+    { to: '/admin/investments',  icon: DollarSign,   label: 'Investments' },
+    { to: '/admin/loans',        icon: FileText,     label: 'Loans' },
+    { to: '/admin/repayments',   icon: Repeat,       label: 'Repayments' },
+    { to: '/admin/withdrawals',  icon: FileText,     label: 'Withdrawals' },
+    {
+      action: () => {
+        logout();
+        navigate('/admin/login', { replace: true });
+      },
+      icon: LogOut,
+      label: 'Logout'
+    }
   ];
 
-  const handleLogout = () => {
-    logout();
-    navigate('/admin/login', { replace: true });
-  };
-
   return (
-    <div className="min-h-screen flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r flex flex-col">
-        <div className="h-16 flex items-center justify-center border-b">
-          <span className="text-2xl font-bold text-blue-600">Admin Panel</span>
-        </div>
-        <nav className="p-4 space-y-2 flex-1">
-          {navItems.map(item => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              end={item.path === '/admin/dashboard'}
-              className={({ isActive }) =>
-                `flex items-center p-2 rounded hover:bg-gray-100 ${isActive ? 'bg-gray-200' : ''}`
-              }
-            >
-              {item.icon}<span className="ml-2">{item.name}</span>
-            </NavLink>
-          ))}
-        </nav>
-        <button
-          onClick={handleLogout}
-          className="m-4 flex items-center px-3 py-2 rounded bg-red-500 text-white hover:bg-red-600"
-        >
-          <LogOut className="mr-2"/><span>Logout</span>
-        </button>
-      </aside>
+    <div className="admin-layout">
+      {/* Menu Toggle Button */}
+      <button
+        className="menu-btn"
+        aria-label="Toggle menu"
+        onClick={() => setMenuOpen(open => !open)}
+      >
+        <Menu size={28} />
+      </button>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <header className="flex justify-end items-center bg-white border-b p-4">
-          <div className="flex items-center space-x-3">
-            <div className="flex flex-col items-end text-right">
-              <span className="text-xl font-bold text-blue-700">AC Finance</span>
-              <span className="text-sm text-gray-600">{isSuperAdmin ? 'SuperAdmin' : 'Admin'}</span>
-              <span className="text-xs text-gray-500 truncate max-w-[150px]">{name}</span>
+      {/* Overlay Menu */}
+      <div
+        className={`overlay-wrapper${menuOpen ? ' open' : ''}`}
+        style={{ background: theme.overlayBg }}
+      >
+        <ul>
+          {navItems.map((item, idx) =>
+            item.to ? (
+              <li key={idx}>
+                <NavLink
+                  to={item.to}
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+                >
+                  <item.icon className="icon" />
+                  {item.label}
+                </NavLink>
+              </li>
+            ) : (
+              <li key={idx}>
+                <button
+                  onClick={() => {
+                    item.action();
+                    setMenuOpen(false);
+                  }}
+                  className="logout-btn"
+                >
+                  <item.icon className="icon" />
+                  {item.label}
+                </button>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+
+      {/* Header & Main Content */}
+      <div className="content-area">
+        <header className="header">
+          <div className="header-info left">
+            <UserCircle size={64} className="profile-icon" />
+            <div className="text-block">
+              <span className="title">AC Finance</span>
+              <span className="subtitle">{isSuperAdmin ? 'SuperAdmin' : 'Admin'}</span>
+              <span className="username">{name}</span>
             </div>
-            <UserCircle size={48} className="text-gray-600"/>
           </div>
         </header>
-        <main className="flex-1 bg-gray-50 p-6">
+        <main className="main-content">
           <Outlet />
         </main>
       </div>
     </div>
-);
+  );
 }
